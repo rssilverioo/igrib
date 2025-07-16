@@ -1,0 +1,321 @@
+export default {
+  common: {
+    back: 'Voltar',
+    continue: 'Continuar',
+    seeAvailableProducts: 'Ver Produtos Disponíveis',
+    explore: 'Explorar Produtos',
+    chat: 'Conversar',
+    details: 'Ver detalhes',
+    available: 'Disponível',
+    ratings: 'avaliações',
+    location: 'Localização',
+    price: 'Preço',
+    quantity: 'Quantidade',
+    delivery: 'Entrega',
+    pickup: 'Retirada',
+    profile: 'Perfil',
+    settings: 'Configurações',
+    now: 'Agora',
+    rating: 'avaliação',
+    views: 'visualizações',
+    interested: 'compradores interessados',
+    negotiations: 'negociações',
+    bags: 'sacas',
+    bag: 'saca',
+    loading: 'Carregando...',
+    save: 'Salvar',
+    cancel: 'Cancelar',
+    delete: 'Excluir',
+    edit: 'Editar',
+    confirm: 'Confirmar',
+    search: 'Buscar',
+    filter: 'Filtrar',
+    sort: 'Ordenar',
+    all: 'Todos',
+    next: 'Próximo',
+    previous: 'Anterior',
+    finish: 'Finalizar',
+    publish: 'Publicar',
+    draft: 'Rascunho',
+    active: 'Ativo',
+    inactive: 'Inativo',
+    pending: 'Pendente',
+    management: 'Painel de Gestão',
+    logisticsControl: 'Controle e monitore toda a sua operação logística em tempo real'
+  },
+  menu: {
+    dashboard: 'Dashboard',
+    buy: 'Comprar',
+    products: 'Produtos',
+    favorites: 'Favoritos',
+    negotiations: 'Negociações',
+    myProducts: 'Meus Produtos',
+    addProduct: 'Adicionar Produto',
+    finances: 'Finanças'
+  },
+  auth: {
+    login: 'Entrar',
+    signup: 'Criar Conta',
+    logout: 'Sair',
+    email: 'E-mail',
+    password: 'Senha',
+    confirmPassword: 'Confirmar Senha',
+    forgotPassword: 'Esqueceu a senha?',
+    rememberMe: 'Lembrar de mim',
+    noAccount: 'Não tem uma conta?',
+    hasAccount: 'Já tem uma conta?',
+    createAccount: 'Criar Conta',
+    buyer: 'Comprador',
+    seller: 'Vendedor',
+    corporateEmail: 'E-mail corporativo',
+    corporateEmailPlaceholder: 'Ex: nome.sobrenome@empresa.com.br',
+    createPassword: 'Criar senha',
+    confirmPasswordPlaceholder: 'Confirme sua senha',
+    rememberDays: 'Lembrar por 7 dias',
+    invalidCredentials: 'Credenciais inválidas',
+    accessDenied: 'Acesso negado',
+    chooseAccountType: 'Escolha seu tipo de conta:',
+    createBuyerAccount: 'Criar Conta de Comprador',
+    createSellerAccount: 'Criar Conta de Vendedor',
+    startBuying: 'Crie sua conta para começar a comprar na plataforma',
+    startSelling: 'Crie sua conta para começar a vender na plataforma'
+  },
+  dashboard: {
+    buyer: {
+      welcome: 'Bem-vindo ao seu Dashboard de Comprador',
+      totalPurchases: 'Total de Compras',
+      activeBids: 'Ofertas Ativas',
+      favoriteProducts: 'Produtos Favoritos',
+      pendingDeliveries: 'Entregas Pendentes',
+      actions: {
+        newPurchase: 'Iniciar Nova Compra',
+        newPurchaseDesc: 'Navegue pelos produtos disponíveis e faça ofertas',
+        viewFavorites: 'Ver Favoritos',
+        viewFavoritesDesc: 'Confira seus produtos salvos',
+                buyProducts: 'Inicie Nova Venda',
+        buyProductsDesc: 'Adicione um novo produto para venda',
+      }
+    },
+    seller: {
+      welcome: 'Bem-vindo ao seu Dashboard de Vendedor',
+      revenue: 'Receita Total',
+      activeListings: 'Produtos Ativos',
+      activeNegotiations: 'Negociações Ativas',
+      customers: 'Total de Clientes',
+      actions: {
+        newProduct: 'Adicionar Novo Produto',
+        newProductDesc: 'Liste um novo produto para venda',
+        viewMessages: 'Ver Mensagens',
+        viewMessagesDesc: 'Confira suas negociações'
+      }
+    },
+    status: {
+      completed: 'Concluído',
+      pending: 'Pendente',
+      info: 'Informação'
+    },
+    quickActions: 'Ações Rápidas',
+    recentActivity: 'Atividade Recente'
+  },
+  seller: {
+    products: {
+      title: 'Meus Produtos',
+      addNew: 'Adicionar Novo Produto',
+      search: 'Buscar produtos...',
+      empty: {
+        title: 'Nenhum produto cadastrado',
+        description: 'Comece adicionando seu primeiro produto'
+      },
+      status: {
+        draft: 'Rascunho',
+        pending: 'Em Análise',
+        active: 'Ativo',
+        inactive: 'Inativo',
+        sold_out: 'Esgotado'
+      },
+      deleteConfirmation: 'Tem certeza que deseja excluir este produto?',
+      productFlow: {
+        steps: {
+          basic: 'Dados do Produto',
+          specifications: 'Especificações',
+          images: 'Imagens',
+          pricing: 'Preços',
+          location: 'Localização'
+        },
+        basic: {
+          title: 'Cadastro do Produto',
+          name: 'Nome do Produto',
+          namePlaceholder: 'Ex: Soja Orgânica Premium',
+          type: 'Categoria do Produto',
+          selectType: 'Selecione a categoria',
+          types: {
+            soy: 'Soja',
+            corn: 'Milho',
+            wheat: 'Trigo'
+          },
+          description: 'Descrição do Produto',
+          descriptionPlaceholder: 'Descreva as características principais do seu produto'
+        },
+        specifications: {
+          title: 'Especificações do Produto',
+          humidity: 'Umidade',
+          protein: 'Teor de Proteína',
+          purity: 'Pureza',
+          certification: 'Certificação'
+        },
+        images: {
+          title: 'Imagens do Produto',
+          dragDrop: 'Arraste e solte imagens aqui ou clique para selecionar',
+          formats: 'Formatos suportados: JPG, PNG (máx 5MB)',
+          maxImages: 'Máximo de 5 imagens',
+          sizeError: 'Tamanho da imagem excede o limite de 5MB'
+        },
+        pricing: {
+          title: 'Informações de Preço',
+          price: 'Preço por Saca',
+          pricePerBag: 'Digite o preço por saca em BRL',
+          available: 'Quantidade Disponível',
+          bags: 'sacas'
+        },
+        location: {
+          title: 'Informações de Localização',
+          address: 'Localização do Produto',
+          addressPlaceholder: 'Digite a localização onde o produto está armazenado',
+          addressHelp: 'Isso ajuda os compradores a encontrarem produtos próximos'
+        }
+      }
+    },
+    finances: {
+      title: 'Finanças',
+      revenue: 'Receita Total',
+      sales: 'Total de Vendas',
+      customers: 'Total de Clientes',
+      avgOrder: 'Média por Pedido',
+      recentTransactions: 'Transações Recentes'
+    }
+  },
+  activity: {
+    seller: {
+      newProposal: 'Nova Proposta de Compra',
+      saleConcluded: 'Venda Concluída',
+      infoRequest: 'Solicitação de Informações'
+    },
+    buyer: {
+      proposalSent: 'Proposta de Compra Enviada',
+      purchaseConcluded: 'Compra Concluída',
+      infoRequestSent: 'Solicitação de Informações Enviada'
+    },
+    timeAgo: {
+      minutes: 'há {{count}} minutos',
+      hours: 'há {{count}} horas'
+    }
+  },
+  buyFlow: {
+    steps: {
+      delivery: 'Entrega',
+      location: 'Localização',
+      product: 'Produto',
+      quantity: 'Quantidade',
+      date: 'Data'
+    },
+    deliveryType: {
+      title: 'Escolha o Método de Entrega',
+      delivery: {
+        title: 'Entrega',
+        description: 'Entregamos no seu endereço'
+      },
+      pickup: {
+        title: 'Retirada',
+        description: 'Retire no local do vendedor'
+      }
+    },
+    address: {
+      delivery: {
+        title: 'Endereço de Entrega',
+        zipcode: 'CEP',
+        street: 'Rua',
+        number: 'Número',
+        complement: 'Complemento',
+        optional: 'Opcional',
+        neighborhood: 'Bairro',
+        city: 'Cidade',
+        state: 'Estado'
+      },
+      pickup: {
+        title: 'Local de Retirada',
+        city: 'Cidade',
+        state: 'Estado',
+        radius: 'Raio de Busca',
+        radiusDescription: 'Mostrar produtos em um raio de {{radius}}km'
+      }
+    },
+    product: {
+      title: 'Selecione o Tipo de Produto',
+      types: {
+        grain: 'Grãos',
+        coffee: 'Café',
+        liquid: 'Líquidos'
+      },
+      grainTypes: {
+        soy: {
+          name: 'Soja',
+          description: 'Soja de alta qualidade'
+        },
+        corn: {
+          name: 'Milho',
+          description: 'Variedades premium de milho'
+        },
+        wheat: {
+          name: 'Trigo',
+          description: 'Grãos superiores de trigo'
+        }
+      }
+    },
+    quantity: {
+      title: 'Quantidade',
+      placeholder: 'Digite a quantidade',
+      description: 'A quantidade mínima pode variar por vendedor'
+    },
+    date: {
+      title: 'Data de Entrega',
+      description: 'Quando você gostaria de {{type}} seu pedido?',
+      receive: 'receber',
+      pickup: 'retirar'
+    }
+  },
+  negotiations: {
+    title: 'Negociações',
+    empty: {
+      title: 'Nenhuma negociação ainda',
+      description: 'Inicie uma conversa com vendedores para negociar preços e condições.',
+      buyer: {
+        title: 'Nenhuma negociação ainda',
+        description: 'Navegue pelos produtos e comece a negociar com vendedores.'
+      }
+    },
+    filters: {
+      all: 'Todas as Negociações',
+      pending: 'Pendentes',
+      active: 'Ativas',
+      completed: 'Concluídas'
+    },
+    status: {
+      new: 'Nova',
+      pending: 'Pendente',
+      active: 'Ativa',
+      completed: 'Concluída'
+    },
+    initialMessage: 'Olá! Tenho interesse em comprar {{quantity}} {{product}}. Gostaria de combinar {{deliveryInfo}} para {{date}}.'
+  },
+  favorites: {
+    title: 'Produtos Favoritos',
+    empty: {
+      title: 'Nenhum produto favorito',
+      description: 'Adicione produtos aos favoritos para acompanhar preços e disponibilidade'
+    }
+  },
+  mobilePrompt: {
+    title: 'Baixe o App Igrib',
+    description: 'Faça o download do nosso aplicativo móvel para uma experiência melhor com recursos avançados e notificações em tempo real.',
+  }
+};

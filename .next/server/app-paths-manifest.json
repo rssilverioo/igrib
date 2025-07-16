@@ -1,0 +1,11 @@
+{
+  "/dashboard/buy/page": "app/dashboard/buy/page.js",
+  "/dashboard/products/page": "app/dashboard/products/page.js",
+  "/dashboard/product/[id]/page": "app/dashboard/product/[id]/page.js",
+  "/dashboard/chat/[sellerId]/[productId]/page": "app/dashboard/chat/[sellerId]/[productId]/page.js",
+  "/dashboard/negotiations/page": "app/dashboard/negotiations/page.js",
+  "/dashboard/favorites/page": "app/dashboard/favorites/page.js",
+  "/dashboard/seller/page": "app/dashboard/seller/page.js",
+  "/dashboard/seller/products/page": "app/dashboard/seller/products/page.js",
+  "/dashboard/seller/finances/page": "app/dashboard/seller/finances/page.js"
+}

@@ -1,0 +1,196 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// Organization Types
+enum OrganizationType {
+  IGRIB
+  SELLER
+  BUYER
+}
+
+// Role Types
+enum RoleType {
+  // Igrib Roles
+  IGRIB_ADMIN
+  IGRIB_ACCOUNT_MANAGER
+  IGRIB_HELPER
+
+  // Seller Roles
+  SELLER_OWNER
+  SELLER_MANAGER
+  SELLER_STAFF
+
+  // Buyer Roles
+  BUYER_ADMIN
+  BUYER_PURCHASER
+  BUYER_FINANCIAL
+  BUYER_LEGAL
+}
+
+// User Status
+enum UserStatus {
+  PENDING
+  ACTIVE
+  SUSPENDED
+}
+
+// Product Status
+enum ProductStatus {
+  DRAFT
+  PENDING_APPROVAL
+  ACTIVE
+  INACTIVE
+  SOLD_OUT
+}
+
+// Order Status
+enum OrderStatus {
+  PENDING
+  APPROVED
+  REJECTED
+  COMPLETED
+  CANCELLED
+}
+
+// Base User Model
+model User {
+  id            String    @id @default(cuid())
+  email         String    @unique
+  name          String
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  // Relations
+  organizations OrganizationMember[]
+  invitesSent   Invite[]  @relation("SentBy")
+  products      Product[] @relation("CreatedBy")
+  orders        Order[]   @relation("PlacedBy")
+
+  @@map("users")
+}
+
+// Organization Model
+model Organization {
+  id          String           @id @default(cuid())
+  name        String
+  type        OrganizationType
+  createdAt   DateTime         @default(now())
+  updatedAt   DateTime         @updatedAt
+
+  // Relations
+  members     OrganizationMember[]
+  invites     Invite[]
+  products    Product[]
+  orders      Order[]
+
+  @@map("organizations")
+}
+
+// Organization Member Model (Join Table with Role)
+model OrganizationMember {
+  id             String     @id @default(cuid())
+  organizationId String
+  userId         String
+  roleType       RoleType
+  status         UserStatus @default(PENDING)
+  invitedBy      String?
+  invitedAt      DateTime   @default(now())
+  joinedAt       DateTime?
+
+  // Relations
+  organization   Organization @relation(fields: [organizationId], references: [id])
+  user          User        @relation(fields: [userId], references: [id])
+
+  @@unique([organizationId, userId])
+  @@map("organization_members")
+}
+
+// Invite Model
+model Invite {
+  id             String     @id @default(cuid())
+  email          String
+  organizationId String
+  roleType       RoleType
+  invitedById    String
+  status         String     @default("pending")
+  token          String     @unique
+  expiresAt      DateTime
+  createdAt      DateTime   @default(now())
+
+  // Relations
+  organization   Organization @relation(fields: [organizationId], references: [id])
+  invitedBy      User        @relation("SentBy", fields: [invitedById], references: [id])
+
+  @@map("invites")
+}
+
+// Product Model
+model Product {
+  id            String        @id @default(cuid())
+  name          String
+  description   String
+  type          String        // e.g., "soy", "corn", "wheat"
+  price         Decimal
+  quantity      Int
+  unit          String        // e.g., "bags", "tons"
+  status        ProductStatus @default(DRAFT)
+  location      String
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
+
+  // Product Specifications
+  specifications Json         // Store specifications as JSON
+
+  // Relations
+  organizationId String
+  organization   Organization @relation(fields: [organizationId], references: [id])
+  createdById    String
+  createdBy      User        @relation("CreatedBy", fields: [createdById], references: [id])
+  orders         OrderProduct[]
+
+  @@map("products")
+}
+
+// Order Model
+model Order {
+  id             String      @id @default(cuid())
+  status         OrderStatus @default(PENDING)
+  deliveryType   String      // "delivery" or "pickup"
+  deliveryDate   DateTime
+  createdAt      DateTime    @default(now())
+  updatedAt      DateTime    @updatedAt
+
+  // Relations
+  organizationId String
+  organization   Organization @relation(fields: [organizationId], references: [id])
+  userId         String
+  user           User        @relation("PlacedBy", fields: [userId], references: [id])
+  products       OrderProduct[]
+
+  @@map("orders")
+}
+
+// Order Product Model (Join Table with quantity)
+model OrderProduct {
+  id          String   @id @default(cuid())
+  orderId     String
+  productId   String
+  quantity    Int
+  price       Decimal  // Price at time of order
+  createdAt   DateTime @default(now())
+
+  // Relations
+  order       Order    @relation(fields: [orderId], references: [id])
+  product     Product  @relation(fields: [productId], references: [id])
+
+  @@map("order_products")
+}
