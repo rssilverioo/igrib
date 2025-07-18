@@ -1,5 +1,22 @@
 {
-  "/page": "app/page.js",
+  "/_not-found": "app/_not-found.js",
   "/login/page": "app/login/page.js",
-  "/dashboard/buyer/page": "app/dashboard/buyer/page.js"
+  "/product/[id]/page": "app/product/[id]/page.js",
+  "/signup/page": "app/signup/page.js",
+  "/page": "app/page.js",
+  "/signup/buyer/page": "app/signup/buyer/page.js",
+  "/signup/confirm/page": "app/signup/confirm/page.js",
+  "/signup/seller/page": "app/signup/seller/page.js",
+  "/dashboard/buy/page": "app/dashboard/buy/page.js",
+  "/dashboard/buyer/page": "app/dashboard/buyer/page.js",
+  "/dashboard/chat/[sellerId]/[productId]/page": "app/dashboard/chat/[sellerId]/[productId]/page.js",
+  "/dashboard/negotiations/page": "app/dashboard/negotiations/page.js",
+  "/dashboard/favorites/page": "app/dashboard/favorites/page.js",
+  "/dashboard/page": "app/dashboard/page.js",
+  "/dashboard/product/[id]/page": "app/dashboard/product/[id]/page.js",
+  "/dashboard/seller/page": "app/dashboard/seller/page.js",
+  "/dashboard/products/page": "app/dashboard/products/page.js",
+  "/dashboard/seller/finances/page": "app/dashboard/seller/finances/page.js",
+  "/dashboard/seller/products/new/page": "app/dashboard/seller/products/new/page.js",
+  "/dashboard/seller/products/page": "app/dashboard/seller/products/page.js"
 }
