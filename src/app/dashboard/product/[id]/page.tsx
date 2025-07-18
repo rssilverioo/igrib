@@ -1,10 +1,28 @@
 'use client';
 
-import { useParams } from 'next/navigation';
-import { notFound } from 'next/navigation';
+import { useParams, notFound } from 'next/navigation';
 import ProductDetails from '@/components/ProductDetails';
 
-const mockProducts = {
+type Product = {
+  id: string;
+  name: string;
+  producer: string;
+  description: string;
+  price: string;
+  images: string[];
+  location: string;
+  rating: number;
+  reviews: number;
+  available: string;
+  specifications: {
+    humidity: string;
+    protein: string;
+    purity: string;
+    certification: string;
+  };
+};
+
+const mockProducts: Record<string, Product> = {
   '1': {
     id: '1',
     name: 'Soja Orgânica Premium',
@@ -24,8 +42,8 @@ const mockProducts = {
       humidity: '14%',
       protein: '40%',
       purity: '99%',
-      certification: 'Orgânico BR'
-    }
+      certification: 'Orgânico BR',
+    },
   },
   '2': {
     id: '2',
@@ -46,17 +64,17 @@ const mockProducts = {
       humidity: '11%',
       protein: 'N/A',
       purity: '98%',
-      certification: 'Specialty Coffee'
-    }
-  }
+      certification: 'Specialty Coffee',
+    },
+  },
 };
 
 export default function ProductPage() {
   const params = useParams();
   const productId = params.id as string;
   const product = mockProducts[productId];
-  
-  if (!product) notFound();
+
+  if (!product) return notFound();
 
   return <ProductDetails product={product} />;
 }

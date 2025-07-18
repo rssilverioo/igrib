@@ -2,11 +2,12 @@ import React, { useState, useRef, DragEvent } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useRouter } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Package, Image as ImageIcon, Droplet, Scale, AlignCenterVertical as Certificate, Tag, MapPin, ChevronRight, ArrowLeft, Upload } from 'lucide-react';
+import { Package, Image as ImageIcon, Droplet, Scale, AlignCenterVertical as Certificate, Tag, MapPin, ChevronRight, ArrowLeft, Upload, LucideIcon } from 'lucide-react';
 import PageTransition from '../PageTransition';
 import { useSellerProducts } from '@/store/sellerProducts';
 
 interface ProductDetails {
+  id: string;
   name: string;
   type: string;
   description: string;
@@ -33,6 +34,7 @@ const ProductFlow = () => {
   const [step, setStep] = useState(1);
   const [isDragging, setIsDragging] = useState(false);
   const [product, setProduct] = useState<ProductDetails>({
+    id: '',
     name: '',
     type: '',
     description: '',
@@ -49,13 +51,18 @@ const ProductFlow = () => {
   });
   const [uploadError, setUploadError] = useState<string>('');
 
-  const steps = [
-    { title: t('seller.products.productFlow.steps.basic'), icon: Package },
-    { title: t('seller.products.productFlow.steps.specifications'), icon: Certificate },
-    { title: t('seller.products.productFlow.steps.images'), icon: ImageIcon },
-    { title: t('seller.products.productFlow.steps.pricing'), iceon: Tag },
-    { title: t('seller.products.productFlow.steps.location'), icon: MapPin }
-  ];
+type StepItem = {
+  title: string;
+  icon: LucideIcon;
+};
+
+const steps: StepItem[] = [
+  { title: t('seller.products.productFlow.steps.basic'), icon: Package },
+  { title: t('seller.products.productFlow.steps.specifications'), icon: Certificate },
+  { title: t('seller.products.productFlow.steps.images'), icon: ImageIcon },
+  { title: t('seller.products.productFlow.steps.pricing'), icon: Tag },
+  { title: t('seller.products.productFlow.steps.location'), icon: MapPin }
+];
 
   const handleFiles = (files: File[]) => {
     setUploadError('');
@@ -112,27 +119,27 @@ const ProductFlow = () => {
     const files = Array.from(event.target.files || []);
     handleFiles(files);
   };
+const handleNext = () => {
+  if (step === steps.length) {
+    addProduct({
+   id: Date.now().toString(),
+      name: product.name,
+      type: product.type,
+      description: product.description,
+      price: product.price,
+      available: product.available,
+      location: product.location,
+      specifications: product.specifications,
+      images: product.images,
+      status: 'draft',
+      createdAt: new Date().toISOString(),
+    });
 
-  const handleNext = () => {
-    if (step === steps.length) {
-      addProduct({
-        name: product.name,
-        type: product.type,
-        description: product.description,
-        price: product.price,
-        available: product.available,
-        location: product.location,
-        specifications: product.specifications,
-        images: product.images,
-        status: 'draft',
-        createdAt: new Date().toISOString(),
-      });
-      
-      router.push('/dashboard/seller/products');
-    } else {
-      setStep(step + 1);
-    }
-  };
+    router.push('/dashboard/seller/products');
+  } else {
+    setStep(step + 1);
+  }
+};
 
   const isStepValid = () => {
     switch (step) {

@@ -1,3 +1,5 @@
+'use client';
+
 import React from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
@@ -6,7 +8,19 @@ import { useTranslation } from 'react-i18next';
 import { useFavorites } from '../store/favorites';
 import { useNegotiations } from '../store/negotiations';
 
-const products = [
+type Product = {
+  id: number;
+  name: string;
+  producer: string;
+  location: string;
+  rating: number;
+  reviews: number;
+  image: string;
+  price: string;
+  available: string;
+};
+
+const products: Product[] = [
   {
     id: 1,
     name: 'Organic Soybeans',
@@ -37,8 +51,7 @@ const ProductList = () => {
   const { addFavorite, removeFavorite, isFavorite } = useFavorites();
   const { addNegotiation } = useNegotiations();
 
-  const handleStartNegotiation = (product: any) => {
-    // Create initial negotiation
+  const handleStartNegotiation = (product: Product) => {
     const negotiation = {
       id: Date.now(),
       productId: product.id,
@@ -54,20 +67,20 @@ const ProductList = () => {
       lastMessage: {
         text: t('negotiations.initialMessage', {
           product: product.name,
-          quantity: '100', // Default quantity
+          quantity: '100',
           deliveryInfo: t('common.delivery').toLowerCase(),
           date: new Date().toLocaleDateString()
         }),
         timestamp: t('common.now'),
         unread: false
       },
-      status: 'new',
-      deliveryType: 'delivery',
+      status: 'new' as const,
+      deliveryType: 'delivery' as const,
       deliveryDate: new Date().toISOString(),
-      quantity: 100 // Default quantity
+      quantity: 100
     };
 
-    addNegotiation(negotiation(product.id));
+    addNegotiation(negotiation); // ✅ corrigido aqui
     router.push(`/dashboard/chat/${product.producer}/${product.id}`);
   };
 
@@ -103,13 +116,21 @@ const ProductList = () => {
                 className="h-48 w-full object-cover"
               />
               <button
-                onClick={() => isFavorite(product.id) ? removeFavorite(product.id) : addFavorite(product)}
+                onClick={() =>
+                  isFavorite(product.id)
+                    ? removeFavorite(product.id)
+                    : addFavorite(product)
+                }
                 className={`absolute top-4 right-4 p-2 rounded-full transition-colors ${
                   isFavorite(product.id)
                     ? 'bg-red-500 text-white'
                     : 'bg-white text-gray-400 group-hover:text-red-500'
                 }`}
-                aria-label={isFavorite(product.id) ? t('products.unfavorite') : t('products.favorite')}
+                aria-label={
+                  isFavorite(product.id)
+                    ? t('products.unfavorite')
+                    : t('products.favorite')
+                }
               >
                 <Heart className={`h-5 w-5 ${isFavorite(product.id) ? 'fill-current' : ''}`} />
               </button>
@@ -119,7 +140,7 @@ const ProductList = () => {
                 <h3 className="text-xl font-semibold text-gray-900">{product.name}</h3>
                 <p className="text-gray-600">{product.producer}</p>
               </div>
-              
+
               <div className="mt-2 flex items-center">
                 <Star className="h-5 w-5 text-yellow-400 fill-current" />
                 <span className="ml-1 text-gray-600">{product.rating}</span>
@@ -127,9 +148,9 @@ const ProductList = () => {
                   ({product.reviews} {t('common.ratings')})
                 </span>
               </div>
-              
+
               <p className="mt-2 text-gray-500">{product.location}</p>
-              
+
               <div className="mt-4">
                 <p className="text-lg font-semibold text-gray-900">{product.price}</p>
                 <p className="text-sm text-gray-600">

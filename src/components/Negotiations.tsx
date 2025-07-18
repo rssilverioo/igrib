@@ -4,10 +4,13 @@ import React, { useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useTranslation } from 'react-i18next';
-import { MessageCircle, Star, Package, Calendar, Filter } from 'lucide-react';
+import { MessageCircle, Star, Package, Calendar } from 'lucide-react';
 import { useNegotiations } from '../store/negotiations';
 import { useSavedProducts } from '../store/savedProducts';
 import { useAuth } from '@/store/auth';
+
+// Importa o tipo Negotiation diretamente do seu store (assumindo que está exportado lá)
+import type { Negotiation } from '../store/negotiations';
 
 const Negotiations = () => {
   const { t } = useTranslation();
@@ -19,7 +22,16 @@ const Negotiations = () => {
 
   const startNegotiations = () => {
     const searchCriteria = JSON.parse(localStorage.getItem('searchCriteria') || '{}');
-    const { deliveryType, deliveryDate, quantity } = searchCriteria;
+    
+    // validação segura do deliveryType
+    const rawDeliveryType = searchCriteria.deliveryType;
+    const deliveryType: 'delivery' | 'pickup' =
+      rawDeliveryType === 'delivery' || rawDeliveryType === 'pickup'
+        ? rawDeliveryType
+        : 'delivery'; // fallback default
+
+    const deliveryDate = searchCriteria.deliveryDate ?? new Date().toISOString();
+    const quantity = Number(searchCriteria.quantity ?? 1);
 
     savedProducts.forEach(product => {
       const deliveryInfo = deliveryType === 'delivery' 
@@ -33,7 +45,7 @@ const Negotiations = () => {
         date: new Date(deliveryDate).toLocaleDateString()
       });
 
-      const negotiation = {
+      const negotiation: Negotiation = {
         id: Date.now() + product.id,
         productId: product.id,
         sellerId: `seller${product.id}`,
@@ -55,7 +67,7 @@ const Negotiations = () => {
         deliveryDate,
         quantity
       };
-      
+
       if (!negotiations.some(n => n.productId === product.id)) {
         addNegotiation(negotiation);
       }
@@ -64,7 +76,7 @@ const Negotiations = () => {
     clearSavedProducts();
   };
 
-  const handleChatClick = (negotiation) => {
+  const handleChatClick = (negotiation: Negotiation) => {
     router.push(`/dashboard/chat/${negotiation.sellerId}/${negotiation.productId}`);
   };
 
