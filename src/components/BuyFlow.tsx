@@ -95,18 +95,17 @@ const BuyFlow = () => {
 
   const handleNext = () => {
     if (step === 5) {
-      const searchCriteria = {
-        deliveryType,
-        address: deliveryType === 'delivery' ? address : null,
-        pickupLocation: deliveryType === 'pickup' ? pickupLocation : null,
-        productTypeId: selectedProduct?.id,
-        grainTypeId: selectedGrainType?.id,
-        quantity: Number(quantity),
-        deliveryDate
-      };
-      localStorage.setItem('searchCriteria', JSON.stringify(searchCriteria));
-      // Update the route to use the correct Next.js dashboard structure
-      router.push('/dashboard/products');
+      const params = new URLSearchParams();
+      if (deliveryType) params.set('deliveryType', deliveryType);
+      if (selectedProduct?.id) params.set('type', selectedProduct.id);
+      if (selectedGrainType?.id) params.set('grainType', selectedGrainType.id);
+      if (quantity) params.set('quantity', quantity);
+      if (deliveryDate) params.set('deliveryDate', deliveryDate);
+      if (deliveryType === 'pickup' && pickupLocation.city) {
+        params.set('city', pickupLocation.city);
+        params.set('state', pickupLocation.state);
+      }
+      router.push(`/dashboard/products?${params.toString()}`);
     } else {
       setStep(step + 1);
     }

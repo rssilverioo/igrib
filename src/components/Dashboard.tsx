@@ -13,14 +13,14 @@ import {
   Heart,
   Clock
 } from 'lucide-react';
-import { useAuth } from '@/store/auth';
+import { useCurrentUser } from '@/hooks/useCurrentUser';
 import PageTransition from './PageTransition';
 import AnimatedNumber from './AnimatedNumber';
 import Link from 'next/link';
 
 const Dashboard = () => {
   const { t } = useTranslation();
-  const { role } = useAuth();
+  const { isSeller } = useCurrentUser();
 
   const buyerStats = [
     {
@@ -88,12 +88,12 @@ const Dashboard = () => {
     }
   ];
 
-  const stats = role === 'seller' ? sellerStats : buyerStats;
+  const stats = isSeller ? sellerStats : buyerStats;
 
   const recentActivity = [
     {
       id: 1,
-      title: role === 'seller' 
+      title: isSeller 
         ? t('activity.seller.newProposal')
         : t('activity.buyer.proposalSent'),
       description: `Soja Orgânica Premium - 500 ${t('common.bags')}`,
@@ -102,7 +102,7 @@ const Dashboard = () => {
     },
     {
       id: 2,
-      title: role === 'seller'
+      title: isSeller
         ? t('activity.seller.saleConcluded')
         : t('activity.buyer.purchaseConcluded'),
       description: `Milho Premium - 200 ${t('common.bags')}`,
@@ -111,7 +111,7 @@ const Dashboard = () => {
     },
     {
       id: 3,
-      title: role === 'seller'
+      title: isSeller
         ? t('activity.seller.infoRequest')
         : t('activity.buyer.infoRequestSent'),
       description: `Café Arábica - 100 ${t('common.bags')}`,
@@ -144,7 +144,7 @@ const Dashboard = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
         >
-          {role === 'seller' ? t('dashboard.seller.welcome') : t('dashboard.buyer.welcome')}
+          {isSeller ? t('dashboard.seller.welcome') : t('dashboard.buyer.welcome')}
         </motion.h1>
 
         <motion.div 
@@ -248,7 +248,7 @@ const Dashboard = () => {
     {t('dashboard.quickActions')}
   </h2>
   <div className="grid grid-cols-2 gap-4">
-    {role === 'seller' ? (
+    {isSeller ? (
       <>
         <Link href="/dashboard/seller/products">
           <motion.button 

@@ -6,6 +6,14 @@ const nextConfig = {
         protocol: 'https',
         hostname: 'images.unsplash.com',
       },
+      {
+        protocol: 'https',
+        hostname: 't3.storage.dev',
+      },
+      {
+        protocol: 'https',
+        hostname: '*.storage.tigris.dev',
+      },
     ],
   },
   // Disable React Strict Mode to prevent double-mounting issues

@@ -2,22 +2,22 @@
 
 import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import { useAuth } from '@/hooks/useAuth';
+import { useCurrentUser } from '@/hooks/useCurrentUser';
 
 export default function DashboardPage() {
   const router = useRouter();
-  const { user } = useAuth();
+  const { isAuthenticated, isLoading, isSeller } = useCurrentUser();
 
   useEffect(() => {
-    // If user is authenticated, redirect to their role-specific dashboard
-    if (user) {
-      router.replace(`/dashboard/${user.role}`);
-    } else {
-      // If not authenticated, redirect to login
-      router.replace('/login');
-    }
-  }, [user, router]);
+    if (isLoading) return;
 
-  // Return null while redirecting
+    if (!isAuthenticated) {
+      router.replace('/login');
+      return;
+    }
+
+    router.replace(isSeller ? '/dashboard/seller' : '/dashboard/buyer');
+  }, [isAuthenticated, isLoading, isSeller, router]);
+
   return null;
 }

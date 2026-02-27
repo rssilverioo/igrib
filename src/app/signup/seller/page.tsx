@@ -1,10 +1,5 @@
-import { Suspense } from 'react'
-import SellerSignupClient from './SellerSignupClient'
+import { redirect } from 'next/navigation';
 
 export default function Page() {
-  return (
-    <Suspense fallback={<div>Carregando...</div>}>
-      <SellerSignupClient />
-    </Suspense>
-  )
+  redirect('/signup?role=seller');
 }

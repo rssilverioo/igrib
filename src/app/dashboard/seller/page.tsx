@@ -2,22 +2,20 @@
 
 import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import { useAuth } from '@/hooks/useAuth';
+import { useCurrentUser } from '@/hooks/useCurrentUser';
 import SellerDashboard from '@/components/seller/Dashboard';
 
 export default function SellerDashboardPage() {
-  const { user } = useAuth();
+  const { isSeller, isLoading } = useCurrentUser();
   const router = useRouter();
 
   useEffect(() => {
-    if (user?.role !== 'seller') {
+    if (!isLoading && !isSeller) {
       router.push('/dashboard/buyer');
     }
-  }, [user, router]);
+  }, [isSeller, isLoading, router]);
 
-  if (user?.role !== 'seller') {
-    return null;
-  }
+  if (isLoading || !isSeller) return null;
 
   return <SellerDashboard />;
 }

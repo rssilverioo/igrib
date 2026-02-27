@@ -23,6 +23,7 @@ export default {
     bags: 'bags',
     bag: 'bag',
     loading: 'Loading...',
+    saving: 'Saving...',
     save: 'Save',
     cancel: 'Cancel',
     delete: 'Delete',
@@ -40,8 +41,16 @@ export default {
     active: 'Active',
     inactive: 'Inactive',
     pending: 'Pending',
+    viewAll: 'View all',
+    startNegotiation: 'Start Negotiation',
+    specifications: 'Specifications',
+    description: 'Description',
+    humidity: 'Humidity',
+    protein: 'Protein',
+    purity: 'Purity',
+    certification: 'Certification',
     management: 'Management Panel',
-    logisticsControl: 'Control and monitor your entire logistics operation in real time'
+    logisticsControl: 'Control and monitor your entire logistics operation in real time',
   },
   menu: {
     dashboard: 'Dashboard',
@@ -51,7 +60,11 @@ export default {
     negotiations: 'Negotiations',
     myProducts: 'My Products',
     addProduct: 'Add Product',
-    finances: 'Finances'
+    finances: 'Finances',
+    organization: 'Organization',
+    contracts: 'Contracts',
+    admin: 'Admin Panel',
+    pendingValidations: 'Pending Validations',
   },
   auth: {
     login: 'Login',
@@ -62,7 +75,7 @@ export default {
     confirmPassword: 'Confirm Password',
     forgotPassword: 'Forgot Password?',
     rememberMe: 'Remember me',
-    noAccount: 'Don\'t have an account?',
+    noAccount: "Don't have an account?",
     hasAccount: 'Already have an account?',
     createAccount: 'Create Account',
     buyer: 'Buyer',
@@ -78,7 +91,7 @@ export default {
     createBuyerAccount: 'Create Buyer Account',
     createSellerAccount: 'Create Seller Account',
     startBuying: 'Create your account to start buying on the platform',
-    startSelling: 'Create your account to start selling on the platform'
+    startSelling: 'Create your account to start selling on the platform',
   },
   dashboard: {
     buyer: {
@@ -92,9 +105,9 @@ export default {
         newPurchaseDesc: 'Browse available products and make offers',
         viewFavorites: 'View Favorites',
         viewFavoritesDesc: 'Check your saved products',
-        buyProducts: 'Start New Sale',
-        buyProductsDesc: 'Add a new product for sale',
-      }
+        buyProducts: 'Explore Products',
+        buyProductsDesc: 'Browse and find the best products',
+      },
     },
     seller: {
       welcome: 'Welcome to your Seller Dashboard',
@@ -105,33 +118,37 @@ export default {
       actions: {
         newProduct: 'Add New Product',
         newProductDesc: 'List a new product for sale',
+        manageProducts: 'Manage Products',
+        manageProductsDesc: 'Edit and manage your listed products',
         viewMessages: 'View Messages',
-        viewMessagesDesc: 'Check your negotiations'
-      }
+        viewMessagesDesc: 'Check your negotiations',
+      },
     },
     status: {
       completed: 'Completed',
       pending: 'Pending',
-      info: 'Information'
+      info: 'Information',
     },
     quickActions: 'Quick Actions',
-    recentActivity: 'Recent Activity'
+    recentActivity: 'Recent Activity',
   },
   seller: {
     products: {
       title: 'My Products',
+      activeListings: 'Active Listings',
       addNew: 'Add New Product',
       search: 'Search products...',
       empty: {
         title: 'No products yet',
-        description: 'Start by adding your first product'
+        description: 'Start by adding your first product',
       },
       status: {
         draft: 'Draft',
         pending: 'Pending Review',
+        pending_approval: 'Pending Review',
         active: 'Active',
         inactive: 'Inactive',
-        sold_out: 'Sold Out'
+        sold_out: 'Sold Out',
       },
       deleteConfirmation: 'Are you sure you want to delete this product?',
       productFlow: {
@@ -140,7 +157,7 @@ export default {
           specifications: 'Specifications',
           images: 'Images',
           pricing: 'Pricing',
-          location: 'Location'
+          location: 'Location',
         },
         basic: {
           title: 'Basic Information',
@@ -151,138 +168,139 @@ export default {
           types: {
             soy: 'Soy',
             corn: 'Corn',
-            wheat: 'Wheat'
+            wheat: 'Wheat',
           },
           description: 'Description',
-          descriptionPlaceholder: 'Describe your product'
+          descriptionPlaceholder: 'Describe your product',
         },
         specifications: {
           title: 'Product Specifications',
           humidity: 'Humidity',
           protein: 'Protein Content',
           purity: 'Purity',
-          certification: 'Certification'
+          certification: 'Certification',
         },
         images: {
           title: 'Product Images',
           dragDrop: 'Drag and drop images here or click to select',
           formats: 'Supported formats: JPG, PNG (max 5MB)',
           maxImages: 'Maximum 5 images',
-          sizeError: 'Image size exceeds 5MB limit'
+          sizeError: 'Image size exceeds 5MB limit',
         },
         pricing: {
           title: 'Pricing Information',
           price: 'Price per Bag',
           pricePerBag: 'Enter price per bag in BRL',
           available: 'Available Quantity',
-          bags: 'bags'
+          bags: 'bags',
         },
         location: {
           title: 'Location Information',
           address: 'Product Location',
           addressPlaceholder: 'Enter the location where the product is stored',
-          addressHelp: 'This helps buyers find products near them'
-        }
-      }
+          addressHelp: 'This helps buyers find products near them',
+        },
+      },
     },
     finances: {
       title: 'Finances',
       revenue: 'Total Revenue',
       sales: 'Total Sales',
       customers: 'Total Customers',
+      activeNegotiations: 'Active Negotiations',
       avgOrder: 'Average Order',
-      recentTransactions: 'Recent Transactions'
-    }
-  },
-activity: {
-  seller: {
-    newProposal: 'New Purchase Proposal',
-    saleConcluded: 'Sale Completed',
-    infoRequest: 'Information Request'
-  },
-  buyer: {
-    proposalSent: 'Purchase Proposal Sent',
-    purchaseConcluded: 'Purchase Completed',
-    infoRequestSent: 'Information Request Sent'
-  },
-  timeAgo: {
-    minutes: '{{count}} minutes ago',
-    hours: '{{count}} hours ago'
-  }
-},
-buyFlow: {
-  steps: {
-    delivery: 'Delivery',
-    location: 'Location',
-    product: 'Product',
-    quantity: 'Quantity',
-    date: 'Date'
-  },
-  deliveryType: {
-    title: 'Choose Delivery Method',
-    delivery: {
-      title: 'Delivery',
-      description: 'We deliver to your address'
+      recentTransactions: 'Recent Transactions',
     },
-    pickup: {
-      title: 'Pickup',
-      description: 'Pick up at seller\'s location'
-    }
   },
-  address: {
-    delivery: {
-      title: 'Delivery Address',
-      zipcode: 'ZIP Code',
-      street: 'Street',
-      number: 'Number',
-      complement: 'Complement',
-      optional: 'Optional',
-      neighborhood: 'Neighborhood',
-      city: 'City',
-      state: 'State'
+  activity: {
+    seller: {
+      newProposal: 'New Purchase Proposal',
+      saleConcluded: 'Sale Completed',
+      infoRequest: 'Information Request',
     },
-    pickup: {
-      title: 'Pickup Location',
-      city: 'City',
-      state: 'State',
-      radius: 'Search Radius',
-      radiusDescription: 'Show products within {{radius}}km radius'
-    }
+    buyer: {
+      proposalSent: 'Purchase Proposal Sent',
+      purchaseConcluded: 'Purchase Completed',
+      infoRequestSent: 'Information Request Sent',
+    },
+    timeAgo: {
+      minutes: '{{count}} minutes ago',
+      hours: '{{count}} hours ago',
+    },
   },
-  product: {
-    title: 'Select Product Type',
-    types: {
-      grain: 'Grains',
-      coffee: 'Coffee',
-      liquid: 'Liquids'
+  buyFlow: {
+    steps: {
+      delivery: 'Delivery',
+      location: 'Location',
+      product: 'Product',
+      quantity: 'Quantity',
+      date: 'Date',
     },
-    grainTypes: {
-      soy: {
-        name: 'Soy',
-        description: 'High quality soy'
+    deliveryType: {
+      title: 'Choose Delivery Method',
+      delivery: {
+        title: 'Delivery',
+        description: 'We deliver to your address',
       },
-      corn: {
-        name: 'Corn',
-        description: 'Premium corn varieties'
+      pickup: {
+        title: 'Pickup',
+        description: "Pick up at seller's location",
       },
-      wheat: {
-        name: 'Wheat',
-        description: 'Superior wheat grains'
-      }
-    }
+    },
+    address: {
+      delivery: {
+        title: 'Delivery Address',
+        zipcode: 'ZIP Code',
+        street: 'Street',
+        number: 'Number',
+        complement: 'Complement',
+        optional: 'Optional',
+        neighborhood: 'Neighborhood',
+        city: 'City',
+        state: 'State',
+      },
+      pickup: {
+        title: 'Pickup Location',
+        city: 'City',
+        state: 'State',
+        radius: 'Search Radius',
+        radiusDescription: 'Show products within {{radius}}km radius',
+      },
+    },
+    product: {
+      title: 'Select Product Type',
+      types: {
+        grain: 'Grains',
+        coffee: 'Coffee',
+        liquid: 'Liquids',
+      },
+      grainTypes: {
+        soy: {
+          name: 'Soy',
+          description: 'High quality soy',
+        },
+        corn: {
+          name: 'Corn',
+          description: 'Premium corn varieties',
+        },
+        wheat: {
+          name: 'Wheat',
+          description: 'Superior wheat grains',
+        },
+      },
+    },
+    quantity: {
+      title: 'Quantity',
+      placeholder: 'Enter quantity',
+      description: 'Minimum quantity may vary by seller',
+    },
+    date: {
+      title: 'Delivery Date',
+      description: 'When would you like to {{type}} your order?',
+      receive: 'receive',
+      pickup: 'pick up',
+    },
   },
-  quantity: {
-    title: 'Quantity',
-    placeholder: 'Enter quantity',
-    description: 'Minimum quantity may vary by seller'
-  },
-  date: {
-    title: 'Delivery Date',
-    description: 'When would you like to {{type}} your order?',
-    receive: 'receive',
-    pickup: 'pick up'
-  }
-},
   negotiations: {
     title: 'Negotiations',
     empty: {
@@ -290,25 +308,120 @@ buyFlow: {
       description: 'Start a conversation with sellers to negotiate prices and conditions.',
       buyer: {
         title: 'No negotiations yet',
-        description: 'Browse products and start negotiating with sellers.'
-      }
+        description: 'Browse products and start negotiating with sellers.',
+      },
     },
     filters: {
       all: 'All Negotiations',
       pending: 'Pending',
       active: 'Active',
-      completed: 'Completed'
+      completed: 'Completed',
     },
     status: {
       new: 'New',
       pending: 'Pending',
       active: 'Active',
-      completed: 'Completed'
+      completed: 'Completed',
     },
-    initialMessage: "Hi! I'm interested in purchasing {{quantity}} {{product}}. I would like to arrange {{deliveryInfo}} for {{date}}."
+    initialMessage: "Hi! I'm interested in purchasing {{quantity}} {{product}}. I would like to arrange {{deliveryInfo}} for {{date}}.",
+  },
+  products: {
+    title: 'Products',
+    empty: 'No products found.',
+    favorite: 'Favorite',
+    unfavorite: 'Remove favorite',
+    filters: {
+      allProducts: 'All Products',
+      allRegions: 'All Regions',
+      grains: 'Grains',
+      coffee: 'Coffee',
+      fruits: 'Fruits',
+      north: 'North',
+      northeast: 'Northeast',
+      midwest: 'Midwest',
+      southeast: 'Southeast',
+      south: 'South',
+    },
+  },
+  organization: {
+    title: 'Organization',
+    members: 'Members',
+    products: 'Products',
+    details: 'Company Details',
+    pendingInvites: 'Pending Invites',
+  },
+  favorites: {
+    title: 'Favorite Products',
+    empty: {
+      title: 'No favorite products',
+      description: 'Add products to favorites to track prices and availability',
+    },
+  },
+  contracts: {
+    title: 'Contracts',
+    empty: {
+      title: 'No contracts',
+      description: 'Your contracts will appear here after approval.',
+    },
+    status: {
+      pending_signatures: 'Pending Signatures',
+      buyer_signed: 'Buyer Signed',
+      seller_signed: 'Seller Signed',
+      signed: 'Signed',
+      cancelled: 'Cancelled',
+    },
+    sign: 'Sign Contract',
+    signConfirm: 'Are you sure you want to sign this contract?',
+    downloadPdf: 'Download PDF',
+    details: 'Contract Details',
+    buyer: 'Buyer',
+    seller: 'Seller',
+    terms: 'Terms',
+    signatures: 'Signatures',
+    signed: 'Signed',
+    notSigned: 'Pending',
+    approvedBy: 'Approved by',
+    totalValue: 'Total Value',
+  },
+  admin: {
+    title: 'Admin Panel',
+    pendingValidations: 'Pending Validations',
+    empty: {
+      title: 'No pending validations',
+      description: 'There are no negotiations awaiting approval at this time.',
+    },
+    approve: 'Approve',
+    reject: 'Reject',
+    rejectReason: 'Rejection reason',
+    rejectReasonPlaceholder: 'Describe the rejection reason (optional)',
+    confirmApprove: 'Confirm approval? A contract will be generated automatically.',
+    confirmReject: 'Confirm rejection? The negotiation will return to in progress.',
+    stats: {
+      organizations: 'Registered Companies',
+      activeProducts: 'Active Products',
+      activeNegotiations: 'Active Negotiations',
+      signedContracts: 'Signed Contracts',
+    },
+    sections: {
+      pendingValidations: 'Pending Validations',
+      pendingProducts: 'Products for Approval',
+      recentOrgs: 'Recent Companies',
+      recentContracts: 'Recent Contracts',
+    },
+    approveProduct: 'Approve Product',
+    rejectProduct: 'Reject Product',
+    confirmApproveProduct: 'Confirm product approval?',
+    noProducts: 'No products pending approval.',
+    noOrgs: 'No companies registered.',
+    noContracts: 'No recent contracts.',
+    buyer: 'Buyer',
+    seller: 'Seller',
+    members: 'members',
+    products: 'products',
+    totalValue: 'Total value',
   },
   mobilePrompt: {
     title: 'Get the Igrib App',
     description: 'Download our mobile app for a better experience with advanced features and real-time notifications.',
-  }
+  },
 };

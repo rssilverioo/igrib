@@ -2,7 +2,7 @@
 
 import { useEffect } from 'react';
 import { useRouter, usePathname } from 'next/navigation';
-import { useAuth } from '@/hooks/useAuth';
+import { useCurrentUser } from '@/hooks/useCurrentUser';
 import Sidebar from '@/components/Sidebar';
 
 interface AuthenticatedLayoutProps {
@@ -10,17 +10,17 @@ interface AuthenticatedLayoutProps {
 }
 
 export default function AuthenticatedLayout({ children }: AuthenticatedLayoutProps) {
-  const { user, isAuthenticated } = useAuth();
+  const { user, isAuthenticated, isLoading } = useCurrentUser();
   const router = useRouter();
   const pathname = usePathname();
 
   useEffect(() => {
-    if (!isAuthenticated) {
+    if (!isLoading && !isAuthenticated) {
       router.push(`/login?from=${encodeURIComponent(pathname)}`);
     }
-  }, [isAuthenticated, router, pathname]);
+  }, [isAuthenticated, isLoading, router, pathname]);
 
-  if (!isAuthenticated || !user) {
+  if (isLoading || !isAuthenticated || !user) {
     return null;
   }
 

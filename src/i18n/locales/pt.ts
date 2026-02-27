@@ -23,6 +23,7 @@ export default {
     bags: 'sacas',
     bag: 'saca',
     loading: 'Carregando...',
+    saving: 'Salvando...',
     save: 'Salvar',
     cancel: 'Cancelar',
     delete: 'Excluir',
@@ -40,8 +41,16 @@ export default {
     active: 'Ativo',
     inactive: 'Inativo',
     pending: 'Pendente',
+    viewAll: 'Ver todos',
+    startNegotiation: 'Iniciar Negociação',
+    specifications: 'Especificações',
+    description: 'Descrição',
+    humidity: 'Umidade',
+    protein: 'Proteína',
+    purity: 'Pureza',
+    certification: 'Certificação',
     management: 'Painel de Gestão',
-    logisticsControl: 'Controle e monitore toda a sua operação logística em tempo real'
+    logisticsControl: 'Controle e monitore toda a sua operação logística em tempo real',
   },
   menu: {
     dashboard: 'Dashboard',
@@ -51,7 +60,11 @@ export default {
     negotiations: 'Negociações',
     myProducts: 'Meus Produtos',
     addProduct: 'Adicionar Produto',
-    finances: 'Finanças'
+    finances: 'Finanças',
+    organization: 'Organização',
+    contracts: 'Contratos',
+    admin: 'Painel Admin',
+    pendingValidations: 'Validações Pendentes',
   },
   auth: {
     login: 'Entrar',
@@ -78,7 +91,7 @@ export default {
     createBuyerAccount: 'Criar Conta de Comprador',
     createSellerAccount: 'Criar Conta de Vendedor',
     startBuying: 'Crie sua conta para começar a comprar na plataforma',
-    startSelling: 'Crie sua conta para começar a vender na plataforma'
+    startSelling: 'Crie sua conta para começar a vender na plataforma',
   },
   dashboard: {
     buyer: {
@@ -92,9 +105,9 @@ export default {
         newPurchaseDesc: 'Navegue pelos produtos disponíveis e faça ofertas',
         viewFavorites: 'Ver Favoritos',
         viewFavoritesDesc: 'Confira seus produtos salvos',
-                buyProducts: 'Inicie Nova Venda',
-        buyProductsDesc: 'Adicione um novo produto para venda',
-      }
+        buyProducts: 'Explorar Produtos',
+        buyProductsDesc: 'Navegue e encontre os melhores produtos',
+      },
     },
     seller: {
       welcome: 'Bem-vindo ao seu Dashboard de Vendedor',
@@ -105,33 +118,37 @@ export default {
       actions: {
         newProduct: 'Adicionar Novo Produto',
         newProductDesc: 'Liste um novo produto para venda',
+        manageProducts: 'Gerenciar Produtos',
+        manageProductsDesc: 'Edite e gerencie seus produtos cadastrados',
         viewMessages: 'Ver Mensagens',
-        viewMessagesDesc: 'Confira suas negociações'
-      }
+        viewMessagesDesc: 'Confira suas negociações',
+      },
     },
     status: {
       completed: 'Concluído',
       pending: 'Pendente',
-      info: 'Informação'
+      info: 'Informação',
     },
     quickActions: 'Ações Rápidas',
-    recentActivity: 'Atividade Recente'
+    recentActivity: 'Atividade Recente',
   },
   seller: {
     products: {
       title: 'Meus Produtos',
+      activeListings: 'Produtos Ativos',
       addNew: 'Adicionar Novo Produto',
       search: 'Buscar produtos...',
       empty: {
         title: 'Nenhum produto cadastrado',
-        description: 'Comece adicionando seu primeiro produto'
+        description: 'Comece adicionando seu primeiro produto',
       },
       status: {
         draft: 'Rascunho',
         pending: 'Em Análise',
+        pending_approval: 'Em Análise',
         active: 'Ativo',
         inactive: 'Inativo',
-        sold_out: 'Esgotado'
+        sold_out: 'Esgotado',
       },
       deleteConfirmation: 'Tem certeza que deseja excluir este produto?',
       productFlow: {
@@ -140,7 +157,7 @@ export default {
           specifications: 'Especificações',
           images: 'Imagens',
           pricing: 'Preços',
-          location: 'Localização'
+          location: 'Localização',
         },
         basic: {
           title: 'Cadastro do Produto',
@@ -151,64 +168,65 @@ export default {
           types: {
             soy: 'Soja',
             corn: 'Milho',
-            wheat: 'Trigo'
+            wheat: 'Trigo',
           },
           description: 'Descrição do Produto',
-          descriptionPlaceholder: 'Descreva as características principais do seu produto'
+          descriptionPlaceholder: 'Descreva as características principais do seu produto',
         },
         specifications: {
           title: 'Especificações do Produto',
           humidity: 'Umidade',
           protein: 'Teor de Proteína',
           purity: 'Pureza',
-          certification: 'Certificação'
+          certification: 'Certificação',
         },
         images: {
           title: 'Imagens do Produto',
           dragDrop: 'Arraste e solte imagens aqui ou clique para selecionar',
           formats: 'Formatos suportados: JPG, PNG (máx 5MB)',
           maxImages: 'Máximo de 5 imagens',
-          sizeError: 'Tamanho da imagem excede o limite de 5MB'
+          sizeError: 'Tamanho da imagem excede o limite de 5MB',
         },
         pricing: {
           title: 'Informações de Preço',
           price: 'Preço por Saca',
           pricePerBag: 'Digite o preço por saca em BRL',
           available: 'Quantidade Disponível',
-          bags: 'sacas'
+          bags: 'sacas',
         },
         location: {
           title: 'Informações de Localização',
           address: 'Localização do Produto',
           addressPlaceholder: 'Digite a localização onde o produto está armazenado',
-          addressHelp: 'Isso ajuda os compradores a encontrarem produtos próximos'
-        }
-      }
+          addressHelp: 'Isso ajuda os compradores a encontrarem produtos próximos',
+        },
+      },
     },
     finances: {
       title: 'Finanças',
       revenue: 'Receita Total',
       sales: 'Total de Vendas',
       customers: 'Total de Clientes',
+      activeNegotiations: 'Negociações Ativas',
       avgOrder: 'Média por Pedido',
-      recentTransactions: 'Transações Recentes'
-    }
+      recentTransactions: 'Transações Recentes',
+    },
   },
   activity: {
     seller: {
       newProposal: 'Nova Proposta de Compra',
       saleConcluded: 'Venda Concluída',
-      infoRequest: 'Solicitação de Informações'
+      infoRequest: 'Solicitação de Informações',
     },
     buyer: {
       proposalSent: 'Proposta de Compra Enviada',
       purchaseConcluded: 'Compra Concluída',
-      infoRequestSent: 'Solicitação de Informações Enviada'
+      infoRequestSent: 'Solicitação de Informações Enviada',
     },
     timeAgo: {
       minutes: 'há {{count}} minutos',
-      hours: 'há {{count}} horas'
-    }
+      hours: 'há {{count}} horas',
+    },
   },
   buyFlow: {
     steps: {
@@ -216,18 +234,18 @@ export default {
       location: 'Localização',
       product: 'Produto',
       quantity: 'Quantidade',
-      date: 'Data'
+      date: 'Data',
     },
     deliveryType: {
       title: 'Escolha o Método de Entrega',
       delivery: {
         title: 'Entrega',
-        description: 'Entregamos no seu endereço'
+        description: 'Entregamos no seu endereço',
       },
       pickup: {
         title: 'Retirada',
-        description: 'Retire no local do vendedor'
-      }
+        description: 'Retire no local do vendedor',
+      },
     },
     address: {
       delivery: {
@@ -239,49 +257,49 @@ export default {
         optional: 'Opcional',
         neighborhood: 'Bairro',
         city: 'Cidade',
-        state: 'Estado'
+        state: 'Estado',
       },
       pickup: {
         title: 'Local de Retirada',
         city: 'Cidade',
         state: 'Estado',
         radius: 'Raio de Busca',
-        radiusDescription: 'Mostrar produtos em um raio de {{radius}}km'
-      }
+        radiusDescription: 'Mostrar produtos em um raio de {{radius}}km',
+      },
     },
     product: {
       title: 'Selecione o Tipo de Produto',
       types: {
         grain: 'Grãos',
         coffee: 'Café',
-        liquid: 'Líquidos'
+        liquid: 'Líquidos',
       },
       grainTypes: {
         soy: {
           name: 'Soja',
-          description: 'Soja de alta qualidade'
+          description: 'Soja de alta qualidade',
         },
         corn: {
           name: 'Milho',
-          description: 'Variedades premium de milho'
+          description: 'Variedades premium de milho',
         },
         wheat: {
           name: 'Trigo',
-          description: 'Grãos superiores de trigo'
-        }
-      }
+          description: 'Grãos superiores de trigo',
+        },
+      },
     },
     quantity: {
       title: 'Quantidade',
       placeholder: 'Digite a quantidade',
-      description: 'A quantidade mínima pode variar por vendedor'
+      description: 'A quantidade mínima pode variar por vendedor',
     },
     date: {
       title: 'Data de Entrega',
       description: 'Quando você gostaria de {{type}} seu pedido?',
       receive: 'receber',
-      pickup: 'retirar'
-    }
+      pickup: 'retirar',
+    },
   },
   negotiations: {
     title: 'Negociações',
@@ -290,32 +308,120 @@ export default {
       description: 'Inicie uma conversa com vendedores para negociar preços e condições.',
       buyer: {
         title: 'Nenhuma negociação ainda',
-        description: 'Navegue pelos produtos e comece a negociar com vendedores.'
-      }
+        description: 'Navegue pelos produtos e comece a negociar com vendedores.',
+      },
     },
     filters: {
       all: 'Todas as Negociações',
       pending: 'Pendentes',
       active: 'Ativas',
-      completed: 'Concluídas'
+      completed: 'Concluídas',
     },
     status: {
       new: 'Nova',
       pending: 'Pendente',
       active: 'Ativa',
-      completed: 'Concluída'
+      completed: 'Concluída',
     },
-    initialMessage: 'Olá! Tenho interesse em comprar {{quantity}} {{product}}. Gostaria de combinar {{deliveryInfo}} para {{date}}.'
+    initialMessage: 'Olá! Tenho interesse em comprar {{quantity}} {{product}}. Gostaria de combinar {{deliveryInfo}} para {{date}}.',
+  },
+  products: {
+    title: 'Produtos',
+    empty: 'Nenhum produto encontrado.',
+    favorite: 'Favoritar',
+    unfavorite: 'Remover favorito',
+    filters: {
+      allProducts: 'Todos os Produtos',
+      allRegions: 'Todas as Regiões',
+      grains: 'Grãos',
+      coffee: 'Café',
+      fruits: 'Frutas',
+      north: 'Norte',
+      northeast: 'Nordeste',
+      midwest: 'Centro-Oeste',
+      southeast: 'Sudeste',
+      south: 'Sul',
+    },
+  },
+  organization: {
+    title: 'Organização',
+    members: 'Membros',
+    products: 'Produtos',
+    details: 'Dados da Empresa',
+    pendingInvites: 'Convites Pendentes',
   },
   favorites: {
     title: 'Produtos Favoritos',
     empty: {
       title: 'Nenhum produto favorito',
-      description: 'Adicione produtos aos favoritos para acompanhar preços e disponibilidade'
-    }
+      description: 'Adicione produtos aos favoritos para acompanhar preços e disponibilidade',
+    },
+  },
+  contracts: {
+    title: 'Contratos',
+    empty: {
+      title: 'Nenhum contrato',
+      description: 'Seus contratos aparecerão aqui após aprovação.',
+    },
+    status: {
+      pending_signatures: 'Aguardando Assinaturas',
+      buyer_signed: 'Comprador Assinou',
+      seller_signed: 'Vendedor Assinou',
+      signed: 'Assinado',
+      cancelled: 'Cancelado',
+    },
+    sign: 'Assinar Contrato',
+    signConfirm: 'Tem certeza que deseja assinar este contrato?',
+    downloadPdf: 'Baixar PDF',
+    details: 'Detalhes do Contrato',
+    buyer: 'Comprador',
+    seller: 'Vendedor',
+    terms: 'Termos',
+    signatures: 'Assinaturas',
+    signed: 'Assinado',
+    notSigned: 'Pendente',
+    approvedBy: 'Aprovado por',
+    totalValue: 'Valor Total',
+  },
+  admin: {
+    title: 'Painel Administrativo',
+    pendingValidations: 'Validações Pendentes',
+    empty: {
+      title: 'Nenhuma validação pendente',
+      description: 'Não há negociações aguardando aprovação no momento.',
+    },
+    approve: 'Aprovar',
+    reject: 'Rejeitar',
+    rejectReason: 'Motivo da rejeição',
+    rejectReasonPlaceholder: 'Descreva o motivo da rejeição (opcional)',
+    confirmApprove: 'Confirmar aprovação? Um contrato será gerado automaticamente.',
+    confirmReject: 'Confirmar rejeição? A negociação voltará para em andamento.',
+    stats: {
+      organizations: 'Empresas Cadastradas',
+      activeProducts: 'Produtos Ativos',
+      activeNegotiations: 'Negociações Ativas',
+      signedContracts: 'Contratos Assinados',
+    },
+    sections: {
+      pendingValidations: 'Validações Pendentes',
+      pendingProducts: 'Produtos para Aprovação',
+      recentOrgs: 'Empresas Recentes',
+      recentContracts: 'Contratos Recentes',
+    },
+    approveProduct: 'Aprovar Produto',
+    rejectProduct: 'Rejeitar Produto',
+    confirmApproveProduct: 'Confirmar aprovação do produto?',
+    noProducts: 'Nenhum produto pendente de aprovação.',
+    noOrgs: 'Nenhuma empresa cadastrada.',
+    noContracts: 'Nenhum contrato recente.',
+    buyer: 'Comprador',
+    seller: 'Vendedor',
+    members: 'membros',
+    products: 'produtos',
+    totalValue: 'Valor total',
   },
   mobilePrompt: {
     title: 'Baixe o App Igrib',
     description: 'Faça o download do nosso aplicativo móvel para uma experiência melhor com recursos avançados e notificações em tempo real.',
-  }
+  },
 };

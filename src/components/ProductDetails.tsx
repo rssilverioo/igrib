@@ -1,24 +1,25 @@
 'use client';
 
 import { useRouter } from 'next/navigation';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { ArrowLeft, Star, MessageCircle, Heart, MapPin, Package, AlignCenterVertical as Certificate, Droplet } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import ImageGallery from './ImageGallery';
 import PageTransition from './PageTransition';
+import { addFavorite, removeFavorite as removeFavoriteAPI } from '@/lib/api/favorites';
+import { createNegotiation } from '@/lib/api/negotiations';
 
 interface Product {
   id: string;
   name: string;
   description: string;
-  price: string;
-  images: string[];
-  producer: string;
+  price: number;
+  images: { url: string }[];
+  organization: { name: string };
   location: string;
-  rating: number;
-  reviews: number;
-  available: string;
+  quantity: number;
+  unit: string;
   specifications: {
     humidity: string;
     protein: string;
@@ -27,84 +28,43 @@ interface Product {
   };
 }
 
-export default function ProductDetails({ product }: { product: Product }) {
+export default function ProductDetails({ product, isFavorited }: { product: Product; isFavorited?: boolean }) {
   const router = useRouter();
   const { t } = useTranslation();
-  const [isFavorite, setIsFavorite] = useState(false);
+  const [isFavorite, setIsFavorite] = useState(isFavorited ?? false);
   const [isNegotiating, setIsNegotiating] = useState(false);
 
-  // Load favorite status from localStorage
-  useEffect(() => {
-    const favorites = JSON.parse(localStorage.getItem('favorites') || '[]');
-    setIsFavorite(favorites.some((fav: Product) => fav.id === product.id));
-  }, [product.id]);
+  const imageUrls = product.images?.map(img => img.url) || [];
 
-  // Load saved products from localStorage
-  const [savedProducts, setSavedProducts] = useState<Product[]>([]);
-  useEffect(() => {
-    const saved = JSON.parse(localStorage.getItem('savedProducts') || '[]');
-    setSavedProducts(saved);
-  }, []);
-
-  const isProductSaved = savedProducts.some(p => p.id === product.id);
-
-  const handleFavoriteClick = () => {
-    const favorites = JSON.parse(localStorage.getItem('favorites') || '[]');
-    
-    if (isFavorite) {
-      const updatedFavorites = favorites.filter((fav: Product) => fav.id !== product.id);
-      localStorage.setItem('favorites', JSON.stringify(updatedFavorites));
-    } else {
-      localStorage.setItem('favorites', JSON.stringify([...favorites, product]));
+  const handleFavoriteClick = async () => {
+    try {
+      if (isFavorite) {
+        await removeFavoriteAPI(product.id);
+      } else {
+        await addFavorite(product.id);
+      }
+      setIsFavorite(!isFavorite);
+    } catch (err) {
+      console.error('Failed to toggle favorite:', err);
     }
-    
-    setIsFavorite(!isFavorite);
   };
 
-  const handleSaveProduct = () => {
-    let updatedProducts;
-    
-    if (isProductSaved) {
-      updatedProducts = savedProducts.filter(p => p.id !== product.id);
-    } else {
-      updatedProducts = [...savedProducts, product];
-    }
-    
-    localStorage.setItem('savedProducts', JSON.stringify(updatedProducts));
-    setSavedProducts(updatedProducts);
-  };
-
-  const handleStartNegotiation = () => {
+  const handleStartNegotiation = async () => {
     setIsNegotiating(true);
-    
-    // Create negotiation and save to localStorage
-    const negotiation = {
-      id: Date.now().toString(),
-      productId: product.id,
-      sellerId: product.producer,
-      product: {
-        name: product.name,
-        producer: product.producer,
-        image: product.images[0],
-        price: product.price,
-        available: product.available,
-        rating: product.rating
-      },
-      lastMessage: {
-        text: `I'm interested in your ${product.name}`,
-        timestamp: new Date().toISOString(),
-        unread: false
-      },
-      status: 'new',
-      deliveryType: 'delivery',
-      deliveryDate: new Date().toISOString(),
-      quantity: 100
-    };
 
-    const negotiations = JSON.parse(localStorage.getItem('negotiations') || '[]');
-    localStorage.setItem('negotiations', JSON.stringify([...negotiations, negotiation]));
-    
-   router.push(`/dashboard/chat/${encodeURIComponent(product.producer)}/${product.id}?negotiation=new`)
+    try {
+      const room = await createNegotiation({
+        productId: product.id,
+        deliveryType: 'DELIVERY',
+        requestedQty: 100,
+        deliveryDate: new Date().toISOString(),
+      }) as { id: string };
+
+      router.push(`/dashboard/chat/${room.id}`);
+    } catch (err) {
+      console.error('Failed to create negotiation:', err);
+      setIsNegotiating(false);
+    }
   };
 
   return (
@@ -122,33 +82,19 @@ export default function ProductDetails({ product }: { product: Product }) {
 
         <div className="bg-white rounded-2xl shadow-lg overflow-hidden">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-            {/* Image Gallery */}
             <div className="p-6 lg:p-8">
-              <ImageGallery images={product.images} alt={product.name} />
+              <ImageGallery images={imageUrls} alt={product.name} />
             </div>
 
-            {/* Product Info */}
             <div className="p-6 lg:p-8">
               <div className="flex justify-between items-start">
                 <div>
                   <h1 className="text-3xl font-bold text-gray-900 mb-2">
                     {product.name}
                   </h1>
-                  <p className="text-lg text-gray-600">{product.producer}</p>
+                  <p className="text-lg text-gray-600">{product.organization?.name}</p>
                 </div>
                 <div className="flex gap-2">
-                  <motion.button
-                    onClick={handleSaveProduct}
-                    className={`p-2 rounded-full ${
-                      isProductSaved
-                        ? 'bg-blue-500 text-white'
-                        : 'bg-gray-100 text-gray-400 hover:text-blue-500'
-                    }`}
-                    whileHover={{ scale: 1.1 }}
-                    whileTap={{ scale: 0.9 }}
-                  >
-                    <Package className={`h-6 w-6 ${isProductSaved ? 'fill-current' : ''}`} />
-                  </motion.button>
                   <motion.button
                     onClick={handleFavoriteClick}
                     className={`p-2 rounded-full ${
@@ -164,14 +110,6 @@ export default function ProductDetails({ product }: { product: Product }) {
                 </div>
               </div>
 
-              <div className="flex items-center mt-4">
-                <Star className="h-5 w-5 text-yellow-400 fill-current" />
-                <span className="ml-1 text-gray-600">{product.rating}</span>
-                <span className="ml-1 text-gray-500">
-                  ({product.reviews} {t('common.ratings')})
-                </span>
-              </div>
-
               <div className="flex items-center mt-4 text-gray-600">
                 <MapPin className="h-5 w-5 mr-2" />
                 <span>{product.location}</span>
@@ -182,52 +120,56 @@ export default function ProductDetails({ product }: { product: Product }) {
                   {t('common.price')}
                 </h2>
                 <div className="bg-gray-50 rounded-lg p-4">
-                  <p className="text-3xl font-bold text-gray-900">{product.price}</p>
+                  <p className="text-3xl font-bold text-gray-900">
+                    R$ {Number(product.price).toFixed(2)}/{product.unit || 'saca'}
+                  </p>
                   <p className="text-gray-600 mt-1">
-                    {t('common.available')}: {product.available}
+                    {t('common.available')}: {product.quantity} {product.unit || 'sacas'}
                   </p>
                 </div>
               </div>
 
-              <div className="mt-8">
-                <h2 className="text-xl font-semibold text-gray-900 mb-4">
-                  Specifications
-                </h2>
-                <div className="grid grid-cols-2 gap-4">
-                  <div className="bg-gray-50 rounded-lg p-4">
-                    <div className="flex items-center text-gray-600">
-                      <Droplet className="h-5 w-5 mr-2" />
-                      <span>Humidity</span>
+              {product.specifications && (
+                <div className="mt-8">
+                  <h2 className="text-xl font-semibold text-gray-900 mb-4">
+                    {t('common.specifications') || 'Specifications'}
+                  </h2>
+                  <div className="grid grid-cols-2 gap-4">
+                    <div className="bg-gray-50 rounded-lg p-4">
+                      <div className="flex items-center text-gray-600">
+                        <Droplet className="h-5 w-5 mr-2" />
+                        <span>{t('common.humidity') || 'Humidity'}</span>
+                      </div>
+                      <p className="text-lg font-semibold mt-1">{product.specifications.humidity}</p>
                     </div>
-                    <p className="text-lg font-semibold mt-1">{product.specifications.humidity}</p>
-                  </div>
-                  <div className="bg-gray-50 rounded-lg p-4">
-                    <div className="flex items-center text-gray-600">
-                      <Package className="h-5 w-5 mr-2" />
-                      <span>Protein</span>
+                    <div className="bg-gray-50 rounded-lg p-4">
+                      <div className="flex items-center text-gray-600">
+                        <Package className="h-5 w-5 mr-2" />
+                        <span>{t('common.protein') || 'Protein'}</span>
+                      </div>
+                      <p className="text-lg font-semibold mt-1">{product.specifications.protein}</p>
                     </div>
-                    <p className="text-lg font-semibold mt-1">{product.specifications.protein}</p>
-                  </div>
-                  <div className="bg-gray-50 rounded-lg p-4">
-                    <div className="flex items-center text-gray-600">
-                      <Star className="h-5 w-5 mr-2" />
-                      <span>Purity</span>
+                    <div className="bg-gray-50 rounded-lg p-4">
+                      <div className="flex items-center text-gray-600">
+                        <Star className="h-5 w-5 mr-2" />
+                        <span>{t('common.purity') || 'Purity'}</span>
+                      </div>
+                      <p className="text-lg font-semibold mt-1">{product.specifications.purity}</p>
                     </div>
-                    <p className="text-lg font-semibold mt-1">{product.specifications.purity}</p>
-                  </div>
-                  <div className="bg-gray-50 rounded-lg p-4">
-                    <div className="flex items-center text-gray-600">
-                      <Certificate className="h-5 w-5 mr-2" />
-                      <span>Certification</span>
+                    <div className="bg-gray-50 rounded-lg p-4">
+                      <div className="flex items-center text-gray-600">
+                        <Certificate className="h-5 w-5 mr-2" />
+                        <span>{t('common.certification') || 'Certification'}</span>
+                      </div>
+                      <p className="text-lg font-semibold mt-1">{product.specifications.certification}</p>
                     </div>
-                    <p className="text-lg font-semibold mt-1">{product.specifications.certification}</p>
                   </div>
                 </div>
-              </div>
+              )}
 
               <div className="mt-8">
                 <h2 className="text-xl font-semibold text-gray-900 mb-4">
-                  Description
+                  {t('common.description') || 'Description'}
                 </h2>
                 <p className="text-gray-600 leading-relaxed">
                   {product.description}
@@ -246,7 +188,7 @@ export default function ProductDetails({ product }: { product: Product }) {
                 >
                   <MessageCircle className="h-5 w-5" />
                   <span>
-                    {isNegotiating ? 'Starting chat...' : 'Start Negotiation'}
+                    {isNegotiating ? t('common.loading') || 'Starting...' : t('common.startNegotiation') || 'Start Negotiation'}
                   </span>
                 </motion.button>
               </div>

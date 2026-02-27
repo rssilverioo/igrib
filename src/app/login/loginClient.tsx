@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { motion } from 'framer-motion';
 import { Store, ShoppingBag, Mail, Lock, Eye, EyeOff, Sprout, AlertCircle } from 'lucide-react';
-import { useAuth } from '@/hooks/useAuth';
+import { signIn } from 'next-auth/react';
 
 export default function LoginPage() {
   const [email, setEmail] = useState('');
@@ -12,10 +12,9 @@ export default function LoginPage() {
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-  
+
   const router = useRouter();
   const searchParams = useSearchParams();
-  const { login } = useAuth();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -23,11 +22,21 @@ export default function LoginPage() {
     setIsLoading(true);
 
     try {
-      await login(email, password);
-      const from = searchParams.get('from') || '/';
-      router.push(from);
+      const result = await signIn('credentials', {
+        email,
+        password,
+        redirect: false,
+      });
+
+      if (result?.error) {
+        setError('Credenciais invalidas');
+      } else {
+        const callbackUrl = searchParams.get('callbackUrl') || '/dashboard';
+        router.push(callbackUrl);
+        router.refresh();
+      }
     } catch (err) {
-      setError('Credenciais inválidas');
+      setError('Erro ao fazer login');
     } finally {
       setIsLoading(false);
     }

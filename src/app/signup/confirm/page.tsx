@@ -1,10 +1,5 @@
-import { Suspense } from 'react'
-import ConfirmSignupPage from './ConfirmSignupPage'
+import { redirect } from 'next/navigation';
 
 export default function Page() {
-  return (
-    <Suspense fallback={<div>Carregando...</div>}>
-      <ConfirmSignupPage />
-    </Suspense>
-  )
+  redirect('/login');
 }

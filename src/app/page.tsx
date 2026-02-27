@@ -2,19 +2,21 @@
 
 import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import { useAuth } from '@/hooks/useAuth';
+import { useCurrentUser } from '@/hooks/useCurrentUser';
 
 export default function HomePage() {
   const router = useRouter();
-  const { user } = useAuth();
+  const { isAuthenticated, isLoading, isSeller } = useCurrentUser();
 
   useEffect(() => {
-    if (user) {
-      router.push(`/dashboard/${user.role}`);
+    if (isLoading) return;
+
+    if (isAuthenticated) {
+      router.push(isSeller ? '/dashboard/seller' : '/dashboard/buyer');
     } else {
       router.push('/login');
     }
-  }, [user, router]);
+  }, [isAuthenticated, isLoading, isSeller, router]);
 
   return null;
 }

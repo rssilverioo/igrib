@@ -4,11 +4,11 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useTranslation } from 'react-i18next';
 import { motion, AnimatePresence } from 'framer-motion';
-import { 
+import {
   ShoppingBag,
-  Store, 
-  Heart, 
-  HandshakeIcon, 
+  Store,
+  Heart,
+  HandshakeIcon,
   User,
   Settings,
   BarChart,
@@ -17,17 +17,19 @@ import {
   LayoutDashboard,
   PlusCircle,
   Menu,
-  X
+  X,
+  FileText,
+  ShieldCheck,
 } from 'lucide-react';
 import { useState, useEffect } from 'react';
 import LanguageSwitcher from './LanguageSwitcher';
-import InterfaceSwitcher from './InterfaceSwitcher';
-import { useAuth } from '@/hooks/useAuth';
-import Logo from './Logo';
+import { useCurrentUser } from '@/hooks/useCurrentUser';
+import { signOut } from 'next-auth/react';
+import { Building2, LogOut } from 'lucide-react';
 
 const Sidebar = () => {
   const { t } = useTranslation();
-  const { user } = useAuth();
+  const { user, isSeller, isAdmin, activeOrg } = useCurrentUser();
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
@@ -51,6 +53,7 @@ const Sidebar = () => {
     { icon: ShoppingBag, label: t('menu.buy'), path: '/dashboard/buy' },
     { icon: Heart, label: t('menu.favorites'), path: '/dashboard/favorites' },
     { icon: HandshakeIcon, label: t('menu.negotiations'), path: '/dashboard/negotiations' },
+    { icon: FileText, label: t('menu.contracts'), path: '/dashboard/contracts' },
   ];
 
   const sellerMenuItems = [
@@ -58,10 +61,17 @@ const Sidebar = () => {
     { icon: Package, label: t('menu.myProducts'), path: '/dashboard/seller/products' },
     { icon: PlusCircle, label: t('menu.addProduct'), path: '/dashboard/seller/products/new' },
     { icon: HandshakeIcon, label: t('menu.negotiations'), path: '/dashboard/negotiations' },
+    { icon: FileText, label: t('menu.contracts'), path: '/dashboard/contracts' },
     { icon: BarChart, label: t('menu.finances'), path: '/dashboard/seller/finances' },
   ];
 
-  const menuItems = user?.role === 'seller' ? sellerMenuItems : buyerMenuItems;
+  const adminMenuItems = [
+    { icon: ShieldCheck, label: t('menu.admin'), path: '/dashboard/admin' },
+    { icon: HandshakeIcon, label: t('menu.negotiations'), path: '/dashboard/negotiations' },
+    { icon: FileText, label: t('menu.contracts'), path: '/dashboard/contracts' },
+  ];
+
+  const menuItems = isAdmin ? adminMenuItems : isSeller ? sellerMenuItems : buyerMenuItems;
 
 const isActive = (path: string) => {
   // Rota exata → ativa
@@ -175,10 +185,20 @@ const isActive = (path: string) => {
         }`}
       >
         <div className="p-6">
-          <Link href={`/dashboard/${user?.role || ''}`}>
+          <Link href={`/dashboard/${isAdmin ? 'admin' : isSeller ? 'seller' : 'buyer'}`}>
               <img src="/images/logo-green.svg" width={100} height={20} />
           </Link>
         </div>
+
+        {/* Organization info */}
+        {activeOrg && (
+          <div className="px-6 py-2 border-b border-gray-100">
+            <div className="flex items-center space-x-2 text-xs text-gray-500">
+              <Building2 className="h-3 w-3" />
+              <span className="truncate">{activeOrg.organizationName}</span>
+            </div>
+          </div>
+        )}
 
         <div className="px-6 py-2">
           <LanguageSwitcher />
@@ -229,13 +249,26 @@ const isActive = (path: string) => {
         </nav>
 
         <div className="p-4 border-t space-y-2">
+          <Link href="/dashboard/organization">
+            <motion.div
+              whileHover={{ x: 5 }}
+              whileTap={{ scale: 0.95 }}
+              className="flex items-center space-x-3 px-4 py-3 text-gray-600 hover:bg-gray-50 rounded-lg"
+            >
+              <Building2 className="h-5 w-5" />
+              <span className="font-medium">{t('menu.organization') || 'Organizacao'}</span>
+            </motion.div>
+          </Link>
           <motion.div
             whileHover={{ x: 5 }}
             whileTap={{ scale: 0.95 }}
-            className="flex items-center space-x-3 px-4 py-3"
+            className="flex items-center space-x-3 px-4 py-3 text-gray-600 hover:bg-gray-50 rounded-lg cursor-pointer"
           >
-            <User className="h-5 w-5 text-gray-600" />
-            <span className="font-medium text-gray-600">{t('common.profile')}</span>
+            <User className="h-5 w-5" />
+            <div className="flex-1 min-w-0">
+              <span className="font-medium block truncate">{user?.name || 'Perfil'}</span>
+              <span className="text-xs text-gray-400 block truncate">{user?.email}</span>
+            </div>
           </motion.div>
           <motion.button
             onClick={() => setIsSettingsOpen(!isSettingsOpen)}
@@ -261,11 +294,21 @@ const isActive = (path: string) => {
                 animate={{ opacity: 1, height: "auto" }}
                 exit={{ opacity: 0, height: 0 }}
                 transition={{ duration: 0.2 }}
+                className="pl-4"
               >
-                <InterfaceSwitcher />
+                <LanguageSwitcher />
               </motion.div>
             )}
           </AnimatePresence>
+          <motion.button
+            onClick={() => signOut({ callbackUrl: '/login' })}
+            className="w-full flex items-center space-x-3 px-4 py-3 text-red-600 hover:bg-red-50 rounded-lg"
+            whileHover={{ x: 5 }}
+            whileTap={{ scale: 0.95 }}
+          >
+            <LogOut className="h-5 w-5" />
+            <span className="font-medium">Sair</span>
+          </motion.button>
         </div>
       </motion.div>
     </>
