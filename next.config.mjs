@@ -18,7 +18,6 @@ const nextConfig = {
   },
   // Disable React Strict Mode to prevent double-mounting issues
   reactStrictMode: false,
-  // Ensure proper handling of static assets
   poweredByHeader: false,
   // Configure webpack for better HMR support
   webpack: (config, { dev, isServer }) => {
