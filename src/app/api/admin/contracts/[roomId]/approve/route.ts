@@ -2,7 +2,7 @@ import { NextResponse } from 'next/server';
 import prisma from '@/lib/prisma';
 import { getAuthSession } from '@/lib/get-session';
 import { generateContractPdf } from '@/lib/generate-contract-pdf';
-import { s3Client, BUCKET, getPublicUrl } from '@/lib/tigris';
+import { getS3Client, getBucket, getPublicUrl } from '@/lib/tigris';
 import { PutObjectCommand } from '@aws-sdk/client-s3';
 
 export async function POST(
@@ -120,9 +120,9 @@ export async function POST(
 
     // Upload to Tigris
     const pdfKey = `contracts/${contract.id}/contrato.pdf`;
-    await s3Client.send(
+    await getS3Client().send(
       new PutObjectCommand({
-        Bucket: BUCKET,
+        Bucket: getBucket(),
         Key: pdfKey,
         Body: Buffer.from(pdfBytes),
         ContentType: 'application/pdf',
