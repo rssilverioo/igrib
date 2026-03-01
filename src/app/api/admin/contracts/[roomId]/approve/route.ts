@@ -5,6 +5,8 @@ import { generateContractPdf } from '@/lib/generate-contract-pdf';
 import { getS3Client, getBucket, getPublicUrl } from '@/lib/tigris';
 import { PutObjectCommand } from '@aws-sdk/client-s3';
 
+export const dynamic = 'force-dynamic';
+
 export async function POST(
   _req: Request,
   { params }: { params: { roomId: string } }
